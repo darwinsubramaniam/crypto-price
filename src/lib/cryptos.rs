@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-use super::https_client;
+use super::{https_client, MainTokenFiat};
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
@@ -39,11 +39,11 @@ impl Cryptos {
     }
 
     pub fn get_pundi_x(&self) -> Option<Crypto> {
-        self.cryptos.iter().find(|f| f.id == 9040).cloned()
+        self.cryptos.iter().find(|f| f.id == MainTokenFiat::PUNDIX as i32).cloned()
     }
 
     pub fn get_funtion_x(&self) -> Option<Crypto> {
-        self.cryptos.iter().find(|f| f.id == 3884).cloned()
+        self.cryptos.iter().find(|f| f.id == MainTokenFiat::FUNCTIONX as i32).cloned()
     }
 
     pub fn get(&self, id: i32) -> Option<Crypto> {

@@ -4,7 +4,7 @@ use hyper_tls::HttpsConnector;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::https_client;
+use super::{https_client, MainTokenFiat};
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
@@ -29,11 +29,11 @@ impl Fiats {
     }
 
     pub fn get_usd(&self) -> Option<Fiat> {
-        self.fiats.iter().find(|f| f.symbol == "USD").cloned()
+        self.fiats.iter().find(|f| f.id == MainTokenFiat::USD as i32).cloned()
     }
 
     pub fn get_sgd(&self) -> Option<Fiat> {
-        self.fiats.iter().find(|f| f.symbol == "SGD").cloned()
+        self.fiats.iter().find(|f| f.id == MainTokenFiat::SGD as i32).cloned()
     }
 
     pub fn get(&self, symbol: &str) -> Option<Fiat> {
