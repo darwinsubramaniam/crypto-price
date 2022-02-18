@@ -33,3 +33,10 @@ Tools available : Coinmarketcap API , CLI Lib - CLAP.
 
 
 **DEADLINE** : FEB 25 2022
+
+| NAME | ID |
+| --- | ---|
+| SGD|2808|
+| USD|2781|
+| Pundi X|9040|
+| Function X|3884|
