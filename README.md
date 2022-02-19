@@ -24,10 +24,7 @@ Build a command line interface (CLI) using Rust that will allow a user to conver
   ```
   Price of {Select Token} = <Ammount>{FIAT}
   ```
-  * 4. user can decide to exit or repeat the process.
-  ```
-  Do you want to exit? (y/n)
-  ```
+
 
 Tools available : Coinmarketcap API , CLI Lib - CLAP.
 
