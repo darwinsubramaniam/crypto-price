@@ -1,9 +1,5 @@
-use std::collections::HashMap;
-use hyper::{body::Buf, Body, Client, Method, Request};
-use hyper_tls::HttpsConnector;
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
-
+use hyper::body::Buf;
+use serde::Deserialize;
 use super::{https_client, MainTokenFiat};
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;

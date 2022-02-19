@@ -12,6 +12,7 @@ hyper = { version = "0.14", features = ["full"] }
 hyper-tls = "0.5.0"
 tokio = { version = "1", features = ["full"] }
 dotenv = "0.15.0"
+clap = { version = "3.1.0", features = ["derive"] }
 
 [dev-dependencies]
 cached = "0.30.0"

@@ -1,10 +1,10 @@
-use std::{collections::HashMap, hash::Hash};
+use std::{collections::HashMap};
 
 use hyper::body::Buf;
 use serde::Deserialize;
 use serde_json::Value;
 
-use super::https_client;
+use super::{https_client, MainTokenFiat};
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
@@ -17,8 +17,11 @@ pub struct Price {
 }
 
 impl Price {
-    pub async fn get_quotes(token_id: i32, fiat_id: i32) -> Result<f64> {
+    pub async fn get_quotes(token_id:MainTokenFiat , fiat_id: MainTokenFiat) -> Result<f64> {
         let price_map_path = std::env::var("PRICE_MAP_PATH").unwrap();
+
+        let token_id = token_id as i32;
+        let fiat_id = fiat_id as i32;
 
         //?id=1&convert_id=2781
         let res = https_client::get(price_map_path, Some((token_id, fiat_id))).await?;
@@ -54,7 +57,7 @@ mod test {
     #[tokio::test]
     async fn test_pundi_x_to_usd() {
         setup().await;
-        let price = Price::get_quotes(MainTokenFiat::PUNDIX as i32, MainTokenFiat::USD as i32)
+        let price = Price::get_quotes(MainTokenFiat::PUNDIX , MainTokenFiat::USD)
             .await
             .unwrap();
         dbg!(&price);
@@ -64,7 +67,7 @@ mod test {
     #[tokio::test]
     async fn test_function_x_to_usd() {
         setup().await;
-        let price = Price::get_quotes(MainTokenFiat::FUNCTIONX as i32, MainTokenFiat::USD as i32)
+        let price = Price::get_quotes(MainTokenFiat::FUNCTIONX , MainTokenFiat::USD)
             .await
             .unwrap();
         dbg!(&price);
@@ -74,7 +77,7 @@ mod test {
     #[tokio::test]
     async fn test_pundi_x_to_sgd() {
         setup().await;
-        let price = Price::get_quotes(MainTokenFiat::PUNDIX as i32, MainTokenFiat::SGD as i32)
+        let price = Price::get_quotes(MainTokenFiat::PUNDIX, MainTokenFiat::SGD)
             .await
             .unwrap();
         dbg!(&price);
@@ -84,7 +87,7 @@ mod test {
     #[tokio::test]
     async fn test_function_x_to_sgd() {
         setup().await;
-        let price = Price::get_quotes(MainTokenFiat::FUNCTIONX as i32, MainTokenFiat::SGD as i32)
+        let price = Price::get_quotes(MainTokenFiat::FUNCTIONX, MainTokenFiat::SGD)
             .await
             .unwrap();
         dbg!(&price);

@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use hyper::{Body, Client, Method, Request, Response};
 use hyper_tls::HttpsConnector;
 
@@ -36,7 +34,6 @@ pub async fn get(map_path: String,query:Option<(i32,i32)>) -> Result<Response<Bo
         .header("X-CMC_PRO_API_KEY", api_key())
         .body(Body::empty())
         .expect("request builder error");
-    dbg!(&req);
 
     let https = HttpsConnector::new();
     let client = Client::builder().build::<_, hyper::Body>(https);
