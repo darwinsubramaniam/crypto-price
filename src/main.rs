@@ -17,7 +17,14 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    dotenv::from_filename("prod.env").ok();
+    match dotenv::from_filename("prod.env") {
+        Ok(_) => {},
+        Err(_) => { 
+            dotenv::from_filename("sandbox.env")
+            .expect("Missing env file, you will need prod.env(Production) or sandbox.env(Dev).");
+            println!("Application is running in Sandbox Mode.");
+        }
+    };
 
     let args: Args = Args::parse();
     if args.functionx && args.pundix {
