@@ -5,21 +5,64 @@ Build a command line interface (CLI) using Rust that will allow a user to conver
 How it works : 
 - requires prod.env file (sandbox.env can be used as reference) , replece API_KEY with your own api_key from CoinMarketCap.
   
-  ``` bash
-  crypto-price 0.1.0
+``` bash
+crypto-price 0.1.0
 
-  USAGE:
-    crypto-price [OPTIONS]
+USAGE:
+    crypto-price [OPTIONS] --ammount <AMMOUNT>
 
-  OPTIONS:
-    -f, --functionx    Choose FUNCTIONX as Crypto
-    -h, --help         Print help information
-    -p, --pundix       Choose PUNDIX as Crypto
-    -s, --sgd          Choose SGD as Fiat
-    -u, --usd          Choose USD as Fiat
-    -V, --version      Print version information
+OPTIONS:
+    -a, --ammount <AMMOUNT>    Ammount to be converted
+    -c, --c2f                  Flag this to make conversion from crypto to fiat
+    -f, --functionx            Choose FUNCTIONX as Crypto
+    -h, --help                 Print help information
+    -p, --pundix               Choose PUNDIX as Crypto
+    -s, --sgd                  Choose SGD as Fiat
+    -u, --usd                  Choose USD as Fiat
+    -V, --version              Print version information
+```
+## Commands 
 
-  ```
+### 100 Pundi X (new) Conversion to USD 
+``` bash
+crypto-price -p -u -c -a 100
+```
+
+### 100 USD Conversion to Pundi X (new) 
+``` bash
+crypto-price -p -u -a 100
+```
+### 100 Function X (new) Conversion to USD 
+``` bash
+crypto-price -f -u -c -a 100
+```
+
+### 100 USD Conversion to Function X (new) 
+``` bash
+crypto-price -f -u -a 100
+```
+----
+
+### 100 Pundi X (new) Conversion to SGD 
+``` bash
+crypto-price -p -s -c -a 100
+```
+
+### 100 SGD Conversion to Pundi X (new) 
+``` bash
+crypto-price -p -s -a 100
+```
+### 100 Function X (new) Conversion to SGD 
+``` bash
+crypto-price -f -s -c -a 100
+```
+
+### 100 SGD Conversion to Function X (new) 
+``` bash
+crypto-price -f -s -a 100
+```
+
+
 
 Tools available : Coinmarketcap API , CLI Lib - CLAP.
 
