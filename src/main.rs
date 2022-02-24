@@ -1,11 +1,11 @@
 mod lib;
-use clap::Parser;
+use clap::{Parser};
 use lib::MainTokenFiat;
 
 #[derive(Parser, Debug)]
 #[clap(author,version,about,long_about=None)]
 struct Args {
-    #[clap(short, long, help = "Choose USD as Fiat")]
+    #[clap(short, long, help = "Choose USD as Fiat" )]
     usd: bool,
     #[clap(short, long, help = "Choose SGD as Fiat")]
     sgd: bool,
@@ -15,8 +15,8 @@ struct Args {
     functionx: bool,
     #[clap(short, long, help= "Ammount to be converted")]
     ammount: f64,
-    #[clap(short, long, help= "Default=True for Crypto to FIAT , -ctf=false Fiat to Crypto conversion is required.")]
-    cryptoToFiat:bool,
+    #[clap(short('c'),long("c2f"), help= "Flag this to make conversion from crypto to fiat")]
+    crypto_to_fiat:bool,
 }
 
 #[tokio::main]
@@ -41,14 +41,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     match args.functionx {
         true => {
             match args.usd {
-                true => display(MainTokenFiat::FUNCTIONX, lib::MainTokenFiat::USD).await,
-                _ => display(MainTokenFiat::FUNCTIONX, MainTokenFiat::SGD).await,
+                true => display(MainTokenFiat::FUNCTIONX, lib::MainTokenFiat::USD, args).await,
+                _ => display(MainTokenFiat::FUNCTIONX, MainTokenFiat::SGD, args).await,
             };
         }
         _ => {
             match args.usd {
-                true => display(MainTokenFiat::PUNDIX, lib::MainTokenFiat::USD).await,
-                _ => display(MainTokenFiat::PUNDIX, MainTokenFiat::SGD).await,
+                true => display(MainTokenFiat::PUNDIX, lib::MainTokenFiat::USD, args).await,
+                _ => display(MainTokenFiat::PUNDIX, MainTokenFiat::SGD, args).await,
             };
         }
     }
@@ -56,11 +56,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn display(crypto: MainTokenFiat, fiat: MainTokenFiat) {
+async fn display(crypto: MainTokenFiat, fiat: MainTokenFiat, args:Args) {
     let price = lib::latest_price::Price::get_quotes(crypto, fiat)
         .await
         .unwrap();
 
-    println!("Price of {crypto} :: [{price} {fiat}]");
+        println!("Price of 1 {crypto} :: [{price} {fiat}]");
 
+    match &args.crypto_to_fiat {
+        true => {
+            let conversion = conversion(args.ammount, price, false);
+            println!("With {} {} -> you will get {:.2} {}", args.ammount,&crypto,conversion, &fiat)
+        }
+        false => {
+            let conversion = conversion(args.ammount, price, true);
+            println!("With {} {} -> you will get {:.2} {}", args.ammount,&fiat,conversion, &crypto)
+        }
+    };
+}
+
+fn conversion(ammount:f64, price:f64,reverse:bool) -> f64{
+    match reverse {
+        true => ammount / price,
+        false => price * ammount
+    }
 }
