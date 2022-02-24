@@ -13,7 +13,7 @@ struct Args {
     pundix: bool,
     #[clap(short, long, help = "Choose FUNCTIONX as Crypto")]
     functionx: bool,
-    #[clap(short, long, help = "Ammount to be converted")]
+    #[clap(short, long, help = "Amount to be converted")]
     ammount: f64,
     #[clap(
         short('c'),
@@ -66,7 +66,7 @@ async fn display(crypto: MainTokenFiat, fiat: MainTokenFiat, args: Args) {
         .await
         .unwrap();
     let price = round_2(price);
-    
+
     println!("Price of 1 {crypto} :: [{price} {fiat}]");
 
     match &args.crypto_to_fiat {
