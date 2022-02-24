@@ -13,6 +13,10 @@ struct Args {
     pundix: bool,
     #[clap(short, long, help = "Choose FUNCTIONX as Crypto")]
     functionx: bool,
+    #[clap(short, long, help= "Ammount to be converted")]
+    ammount: f64,
+    #[clap(short, long, help= "Default=True for Crypto to FIAT , -ctf=false Fiat to Crypto conversion is required.")]
+    cryptoToFiat:bool,
 }
 
 #[tokio::main]
@@ -58,4 +62,5 @@ async fn display(crypto: MainTokenFiat, fiat: MainTokenFiat) {
         .unwrap();
 
     println!("Price of {crypto} :: [{price} {fiat}]");
+
 }
